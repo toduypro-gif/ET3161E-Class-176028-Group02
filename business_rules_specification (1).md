@@ -1,5 +1,5 @@
 # Business Rules Specification
- 
+  
 | Metadata | Value |
 |---|---|
 | **Project** | Scientific Research Management System (Process QTQL.NC2.3.1) |
