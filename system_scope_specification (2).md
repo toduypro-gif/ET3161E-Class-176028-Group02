@@ -1,9 +1,19 @@
-[business_rules_specification (2).md](https://github.com/user-attachments/files/32756622/business_rules_specification.2.md)
+[business_rules_specification (3).md](https://github.com/user-attachments/files/32756801/business_rules_specification.3.md)
 # Business Rules Specification
 
-- **Project:** Scientific Research Management System (Process QTQL.NC2.3.1)
-- **Document Version:** 1.0 (Week 2)
-- **Author/Owner:** Hung
+| Metadata | Value |
+|---|---|
+| **Project** | Scientific Research Management System (Process QTQL.NC2.3.1) |
+| **Document Version** | 1.0 (Week 2) |
+| **Author/Owner** | Hung |
+
+## Table of Contents
+
+- [1. Process-Mandated Business Rules](#1-process-mandated-business-rules)
+- [2. Derived Workflow & Logical Rules](#2-derived-workflow--logical-rules)
+- [3. Assumptions & Verification Points](#3-assumptions--verification-points)
+- [4. Rule-to-Data Model Mapping](#4-rule-to-data-model-mapping)
+
 
 ---
 
