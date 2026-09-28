@@ -1,4 +1,5 @@
-# System Scope Specification
+[business_rules_specification (2).md](https://github.com/user-attachments/files/32756622/business_rules_specification.2.md)
+# Business Rules Specification
 
 - **Project:** Scientific Research Management System (Process QTQL.NC2.3.1)
 - **Document Version:** 1.0 (Week 2)
@@ -6,71 +7,57 @@
 
 ---
 
-## 1. System Purpose
-The primary objective of the system is to digitize and streamline the management of student scientific research topics at the National Children's Hospital in compliance with procedure **QTQL.NC2.3.1**. 
+## 1. Process-Mandated Business Rules
 
-By replacing manual paper-routing with an online platform, the system enables electronic submission and multi-tier approval of the initial registration form (BM1), transparent lifecycle tracking across all research phases, and automated management of closing receipts (BM2) alongside physical archive tracking.
+These rules are directly derived from hospital procedure **QTQL.NC2.3.1** and governing circulars.
+
+| Rule ID | Business Rule Description | Regulatory Source | Applicable Stage | System Logic & Enforcement |
+|---|---|---|---|---|
+| **BR-01** | The student must scan/photocopy the fully signed BM1 form before submitting the physical original to QLDT, retaining a verified copy for subsequent milestones. | Procedure QTQL.NC2.3.1, Step 1 | Step 1 (Registration) | Provide an upload field for the signed BM1 scan (`signed_scan_file_path`) and display an explicit submission checklist prompt before handover. |
+| **BR-02** | Official research documentation (Proposal, full thesis soft-copy, and BM2 record) must be archived for a mandatory duration of 5 years at QLDT. | Records Retention Guidelines | Step 6 (Archiving) | Automatically create an archive entry upon topic closure with `retention_years = 5` and calculate: $\text{disposal\_due\_date} = \text{archive\_date} + 5\text{ years}$. |
+| **BR-03** | The official legal repository format for completed topics is physical paper documents. | Records Management Policy | Step 6 (Archiving) | Set `storage_form = 'Paper'`. The system records the physical storage coordinate (`physical_location_code` for cabinet/shelf ID). |
+| **BR-04** | Upon reaching the 5-year retention deadline, archived records must be destroyed exclusively via mechanical shredding. | Records Disposal Policy | Post-Archiving | Automatically flag records where $\text{current\_date} \ge \text{disposal\_due\_date}$ with status `Due_For_Disposal` and `disposal_method = 'Shredding'`. |
+| **BR-05** | Workflow and terminology must conform to Circular 37/2010/TT-BYT (MOH) and Circular 14/2014/TT-BKHCN (MOST). | Legal Framework | System-Wide | Standardize topic categorization, metadata attributes, and retention compliance fields across the application. |
 
 ---
 
-## 2. In-Scope (Functional Capabilities)
-The system actively implements and supports the following core capabilities:
+## 2. Derived Workflow & Logical Rules
 
-| # | Capability | Description | Traced Requirements |
+Rules deduced from operational workflow constraints, subject to instructor confirmation.
+
+| Rule ID | Rule Description & Flow | Rationale | System Enforcement |
 |---|---|---|---|
-| **1** | **Digital BM1 Submission & Approval Workflow** | Web form submission for students and a strictly enforced sequential approval chain: $\text{Supervisor} \rightarrow \text{Head of Dept./Center} \rightarrow \text{QLDT Dept.} \rightarrow \text{Directorate (BGD)}$. | FR-01 to FR-06 |
-| **2** | **Topic Lifecycle Tracking** | End-to-end status management tracking research progression through 6 standard steps (Submission, Proposal Defense, Ethics Review, Execution, Final Defense, Archiving). | FR-07, FR-09, FR-10, FR-14 |
-| **3** | **Ethics Review Recording** | Capturing IRB review submissions, committee decisions, approval references, and official decision dates. | FR-08 |
-| **4** | **BM2 Receipt Issuance & Thesis Upload** | Digital upload of the final approved thesis (soft copy) and automated issuance of the BM2 confirmation receipt. | FR-11, FR-12 |
-| **5** | **Archive & Disposal Record Management** | Automated calculation of the 5-year retention period, tracking physical document location at QLDT, and flagging expired records for shredding. | FR-13, NFR-07 |
-| **6** | **Role-Based Access Control (RBAC)** | Dedicated roles and permissions for Student, Supervisor, Department Head, QLDT Staff, Board of Directors, and System Administrator. | FR-15, NFR-01 |
-| **7** | **Audit Trail & Action Logs** | Complete logging of approval decisions, feedback/rejection notes, timestamps, and stage transitions for compliance and audit purposes. | NFR-02 |
+| **BR-06** | **Enforced Approval Hierarchy:**<br>$\text{Student} \rightarrow \text{Supervisor} \rightarrow \text{Head of Dept./Center} \rightarrow \text{QLDT} \rightarrow \text{Directorate (BGD)}$ | Authority escalates strictly from direct clinical oversight to hospital executive leadership. | The action button to sign/approve is disabled for level $N+1$ until level $N$ has submitted an `Approved` decision. |
+| **BR-07** | **Rejection Return Mechanism:**<br>A rejection at any review level halts forward progression and routes the proposal back to the student with mandatory reviewer comments. | A denied signature requires student revisions before the workflow can be restarted or resumed. | Sets status to `Rejected` / `Revision_Required`, unlocks form for student modifications, and requires justification notes. |
+| **BR-08** | **Implementation Prerequisite:**<br>A topic may only transition to active execution (`In_Progress`) after passing proposal defense AND obtaining formal Ethics Committee approval. | Strict adherence to biomedical research safety, patient privacy, and clinical trial regulations. | State transition to `In_Progress` is blocked unless `defense_result == 'Passed'` and `ethics_status == 'Approved'`. |
+| **BR-09** | **Definitive Topic Closure:**<br>A topic is formally closed and eligible for institutional clearance only after the BM2 confirmation receipt has been issued. | Verifies that all thesis deliverables and physical handovers have been fulfilled. | Updating status to `Closed` automatically triggers instantiation of the linked `ArchiveRecord`. |
+| **BR-10** | **Single Academic Categorization:**<br>Each research topic must belong to exactly one of the five approved academic categories. | Required for institutional training reporting and ministerial statistical returns. | Form field rendered as single-select dropdown/radio list (Resident, Master, Specialist I, Specialist II, Other). Multiple selections disallowed. |
 
 ---
 
-## 3. Out-of-Scope (Boundaries & Exclusions)
-The following elements are deliberately excluded from system implementation to ensure project feasibility within the academic timeline:
+## 3. Assumptions & Verification Points
 
-| # | Excluded Item | Justification / Handling Method |
-|---|---|---|
-| **1** | **Scientific & Academic Assessment** | Evaluating research merit is performed by human experts (Supervisors and Academic Review Boards). The system only records administrative decisions. |
-| **2** | **University Defense Administration** | Scheduling and defense council scoring at the affiliated universities are managed externally; the system only captures defense status (Passed/Failed) and date. |
-| **3** | **Internal Ethics Committee Scoring** | The internal scoring rubrics and deliberations of the Institutional Review Board (IRB) occur offline; the system only records the formal approval/rejection outcome. |
-| **4** | **Plagiarism Detection** | Automated text similarity scanning is outside the hospital's administrative process scope. |
-| **5** | **Physical Shredding & Warehouse Logistics** | Physical execution of document destruction remains a manual facility management task; the system solely generates disposal candidate lists and flags. |
-| **6** | **External System Integration** | Direct API integrations with the hospital's Hospital Information System (HIS) or external university student portals are excluded from this phase. |
+Key working assumptions to be confirmed during upcoming consultation sessions:
+
+| # | Working Assumption | Open Question for Clarification | Risk / Impact if Changed |
+|---|---|---|---|
+| **A1** | The 5-year retention period begins on the exact date BM2 is issued (`closure_date`). | Does the retention clock start immediately on closure date, or at the end of the current academic/fiscal calendar year? | Affects the automatic calculation formula for `disposal_due_date`. |
+| **A2** | Uploading the scanned BM1 is an administrative verification step rather than a hard system blocker. | Should the system strictly prohibit physical submission if no digital scan is uploaded? | Influences form validation logic in Step 1. |
+| **A3** | A student can lead only one active (`In_Progress`) research topic at any point in time. | Are there exceptions where a postgraduate student might lead two concurrent projects? | Determines whether database schema enforces a unique constraint on `(student_id, active_status)`. |
 
 ---
 
-## 4. Course Project Work Breakdown
-To clearly distinguish project deliverables from the overall real-world system:
+## 4. Rule-to-Data Model Mapping
 
-| Deliverable Domain | Coverage Level | Focus & Artifacts |
-|---|---|---|
-| **Business Process Analysis** | **Complete** | AS-IS / TO-BE process flows, actor identification, artifact definitions, business rules catalog. |
-| **Requirements Engineering** | **Complete** | Functional (FR) and non-functional requirements (NFR) with formal acceptance criteria. |
-| **System Modeling (UML)** | **Complete** | Use Case diagrams, Activity diagrams, Sequence diagrams, State Machine diagrams, Class diagrams. |
-| **Database Design** | **Complete** | Entity-Relationship Diagram (ERD), Data Dictionary, and SQL DDL schemas. |
-| **Application Prototype (MVP)** | **Core Workflows** | Working web interface for BM1 form submission, sequential multi-level approval, status transitions, BM2 generation, and archive record tracking. |
-| **Conceptual / Non-Coded Specs** | **Specification Only** | Advanced email/SMS notification queues, external webhooks, and automated document OCR. |
+Traceability matrix linking business rules directly to relational database entities and attributes:
 
----
-
-## 5. Working Assumptions
-1. **User Background:** Target users (hospital staff, clinicians, students) are already accustomed to paper-based process QTQL.NC2.3.1.
-2. **Topic Concurrency:** A student acts as the primary lead for only one active research topic at any given time.
-3. **Approval Sequence:** The multi-tier sign-off hierarchy is strictly fixed and cannot bypass intermediate roles.
-4. **Retention Baseline:** The 5-year legal archive duration begins on the exact date the topic is closed and BM2 is issued.
-
----
-
-## 6. Project Constraints
-- **Regulatory Framework:** System rules must strictly align with hospital protocol QTQL.NC2.3.1, Circular 37/2010/TT-BYT (Ministry of Health), and Circular 14/2014/TT-BKHCN (Ministry of Science and Technology).
-- **Execution Budget:** 14-week academic development lifecycle delivered by a 5-member team.
-
----
-
-## 7. System Boundary & External Interfaces
-- **Inside the Boundary:** The web application, backend business logic, relational database, uploaded document repository, and internal audit logs.
-- **Outside the Boundary:** Partner medical universities, external Institutional Review Boards (IRB), physical paper archives, and paper shredding units.
-- **Interface Mechanism:** Human-in-the-loop data entry. Authorized staff (QLDT) or students input verification results, reference numbers, and upload scanned supporting documents.
+| Rule ID | Target Table | Target Column / Field | Data Type & Constraint |
+|---|---|---|---|
+| **BR-01** | `research_proposals` | `signed_scan_file_path` | `VARCHAR(255)`, Nullable (Required before Step 2) |
+| **BR-02** | `archive_records` | `retention_years`, `archive_date` | `INT DEFAULT 5`, `DATE NOT NULL` |
+| **BR-03** | `archive_records` | `storage_form`, `physical_location_code` | `VARCHAR(50) DEFAULT 'Paper'`, `VARCHAR(100)` |
+| **BR-04** | `archive_records` | `disposal_method`, `disposal_due_date` | `VARCHAR(50) DEFAULT 'Shredding'`, `DATE GENERATED ALWAYS` |
+| **BR-06 / 07** | `proposal_approvals` | `approval_level`, `decision`, `rejection_notes` | `INT (1 to 4)`, `ENUM('Pending', 'Approved', 'Rejected')`, `TEXT` |
+| **BR-08** | `research_topics`, `ethics_reviews` | `status`, `irb_decision` | `ENUM(...)`, `ENUM('Approved', 'Rejected')` |
+| **BR-09** | `research_topics` | `status`, `bm2_receipt_number` | Updates to `'Closed'`, `VARCHAR(50) UNIQUE` |
+| **BR-10** | `research_topics` | `topic_category` | `ENUM('Resident', 'Master', 'Specialist_I', 'Specialist_II', 'Other')` |
