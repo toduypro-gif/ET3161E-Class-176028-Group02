@@ -2,12 +2,11 @@
 
 Requirement completion, system scope and AS-IS analysis (per instructor's notes).
 
-| File | Content |
-| :--- | :--- |
-| [requirements.md](requirements.md) | FR/NFR with acceptance criteria and traceability |
-| [actors.md](actors.md) | Actors and actor-function matrix |
-| [as-is-step1-2.md](as-is-step1-2.md) | AS-IS Steps 1-2 |
-| [as-is-step3-4.md](as-is-step3-4.md) | AS-IS Steps 3-4 |
-| [as-is-step5-6.md](as-is-step5-6.md) | AS-IS Steps 5-6 |
-| [business-rules.md](business-rules.md) | Business rules and assumptions |
-| [scope.md](scope.md) | In/out-of-scope and team implementation scope |
+| Task / Work Item | Description | Assigned Member |
+| :--- | :--- | :--- |
+| Requirements Specification | FR/NFR with acceptance criteria and traceability | Tố Duy |
+| System Scope | In/out-of-scope and team implementation scope | Quốc Hưng |
+| Business Rules | Business rules and assumptions | Quốc Hưng |
+| Actors Matrix | Actors and actor-function matrix | Hoàng Nam |
+| AS-IS Analysis (Steps 1–2) | Workflow analysis for steps 1 and 2 | Hoàng Nam |
+| AS-IS Analysis (Steps 3–6) | Workflow analysis for steps 3 to 6 | Nguyên Hoàng |
