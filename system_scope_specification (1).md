@@ -2,7 +2,7 @@
 
 - **Project:** Scientific Research Management System (Process QTQL.NC2.3.1)
 - **Document Version:** 1.0 (Week 2)
-- **Author/Owner:** Member 5
+- **Author/Owner:** Hung
 
 ---
 
