@@ -1,6 +1,6 @@
 # Week 3 – Activity Diagram (Swimlane)
 
-**Owners:** Duy (layout, merge, review) · Việt (Step 1) · Nam (Steps 2–3) · Hoàng (Steps 4–5) · Hưng (Step 6, narrative)
+**Owners:** Duy (layout, merge, review) · Nam (Steps 1–3) · Hoàng (Steps 4–5) · Hưng (Step 6, narrative)
 
 The diagram models the full lifecycle of a research-topic record across the 6 steps of process QTQL.NC2.3.1, in 7 lanes (one per actor). BM1 is signed in sequence by the Supervisor, the Head of Dept./Center and the Board of Directors, with a decision at each level. A rejection at any level returns the form to the Student, who revises it and starts again from the Supervisor.
 
