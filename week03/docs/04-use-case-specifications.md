@@ -1,6 +1,6 @@
 # Week 6 – Use Case Specifications
 
-All 11 use cases use one template, created and reviewed by Duy. Business rules are listed in [05-business-rules.md](05-business-rules.md).
+All 11 use cases use one template, created and reviewed by Duy. Business rules are listed in [05-business-rules.md] (week02)
 
 ## Contents
 
@@ -23,7 +23,7 @@ All 11 use cases use one template, created and reviewed by Duy. Business rules a
 |---|---|
 | **ID / Name** | UC01 – Create / Submit BM1 Proposal Form |
 | **Actor(s)** | Student |
-| **Specified by** | Việt |
+| **Specified by** | Nam |
 | **Description** | The Student creates the topic proposal form (BM1) in the system and submits it to start the signing process. |
 | **Pre-condition** | The Student is logged in and has no other topic beyond the Draft or Rejected state. |
 | **Post-condition** | BM1 is saved and the record moves to Pending Approval; the Supervisor is notified. |
@@ -51,7 +51,7 @@ All 11 use cases use one template, created and reviewed by Duy. Business rules a
 |---|---|
 | **ID / Name** | UC02 – Track Signing History |
 | **Actor(s)** | Student, QLDT |
-| **Specified by** | Việt |
+| **Specified by** | Nam |
 | **Description** | View BM1 signing progress: who signed, when, rejection comments (if any) and which level is pending. |
 | **Pre-condition** | BM1 has been submitted at least once. |
 | **Post-condition** | The user knows the current signing status of the record. |
@@ -103,7 +103,7 @@ All 11 use cases use one template, created and reviewed by Duy. Business rules a
 |---|---|
 | **ID / Name** | UC04 – Record Proposal Defense Result |
 | **Actor(s)** | Training Institution |
-| **Specified by** | Nam |
+| **Specified by** | Hoàng |
 | **Description** | Record the schedule and result of the proposal defense. |
 | **Pre-condition** | The record is Received or Proposal Defense. |
 | **Post-condition** | Passed: the record moves to Pending Ethics Review. |
@@ -200,7 +200,7 @@ All 11 use cases use one template, created and reviewed by Duy. Business rules a
 |---|---|
 | **ID / Name** | UC08 – Record Thesis Defense Result |
 | **Actor(s)** | Training Institution |
-| **Specified by** | Hoàng |
+| **Specified by** | Hưng |
 | **Description** | Record the official thesis/dissertation defense result. |
 | **Pre-condition** | The record is In Progress. |
 | **Post-condition** | The record moves to Thesis Defended; the Student is reminded to submit final documents. |
