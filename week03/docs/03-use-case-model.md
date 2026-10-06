@@ -1,6 +1,6 @@
 # Week 5 – Use Case Model
 
-**Owners:** Duy (actors, standardization) · Việt (UC01–02) · Nam (UC03–04) · Hoàng (UC05–08) · Hưng (UC09–11, relationships)
+**Owners:** Duy (actors, standardization) · Nam (UC01–03) · Hoàng (UC04–07) · Hưng (UC08–11, relationships)
 
 ## Actors
 
