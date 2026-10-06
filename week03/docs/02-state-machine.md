@@ -1,6 +1,6 @@
 # Week 4 – State Machine Diagram
 
-**Owners:** Duy (state list, merge) · Việt (group 1) · Nam (group 2) · Hoàng (group 3) · Hưng (transition table)
+**Owners:** Duy (state list, merge) · Nam (group 1-2) · Hoàng (group 3) · Hưng (transition table)
 
 A research-topic record has **8 main states** plus **1 exception state** (Rejected / Returned).
 
